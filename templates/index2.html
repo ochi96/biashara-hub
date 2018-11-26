@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+  <h1 class="text-center">BIASHARA HUB</h1>
+  <div class="row">
+    <div class="col-sm-6 offset-sm-3">
+      <div class="jumbotron">
+          Welcome to the Biashara Hub app. We connect customers to businesses by allowing existing and potential customers to view and review companys' profiles. 
+      </div>
+      <form action="/sign up" method="POST">
+        <p><input type="username" name="username" placeholder="Username"></p>
+        <p><input type="password" name="password" placeholder="Password"></p>
+        <p><input type="password" name="password2" placeholder="Confirm Password"></p>
+        <p><input type="addrress" name="addrress" placeholder="Address"></p>
+        <input type="submit" value="Sign Up">
+      </form> 
+      {%if request.form['password']!=request.form['password2']%}
+          <p>Enter matching passwords</p>
+      {%endif%}   
+  </div>
+  </div>
+{% endblock %}
