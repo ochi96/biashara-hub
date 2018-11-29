@@ -10,11 +10,27 @@
         Welcome to the Biashara Hub app. We connect customers to businesses by allowing existing and potential customers to view and review companys' profiles. 
         
       </div>
-        <P><form action="/login" method="POST">
-        <input type="username" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Log in">
-        </form></P>
+        <P>
+            <form action="/login" method="post" NOvalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.username.label }}<br>
+                    {{ form.username(size=32) }}<br>
+                    {% for error in form.username.errors %}
+                    <span style="color: blue;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}<br>
+                    {% for error in form.username.errors %}
+                    <span style="color: blue;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                <p>{{ form.submit() }}</p>
+            </form>
+      </P>
 
         <p>Not a member? Sign up</p>
         
