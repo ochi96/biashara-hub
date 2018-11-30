@@ -12,8 +12,17 @@
       <div>
       <p> Enter Valid Username or Password</p>
     
-      <form action="/login" method="post" NOvalidate>
+      <form action="/login" method="post">
         {{ form.hidden_tag() }}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
         <p>
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
@@ -28,6 +37,7 @@
             <span style="color: blue;">[{{ error }}]</span>
             {% endfor %}
         </p>
+        
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
@@ -36,7 +46,7 @@
 
       <p>Not a member?Sign up</p>
       
-      <form action="/signup" method="POST">
+      <form action="/sign up" method="POST">
       <input type="submit" value="Sign Up ">
       </form>
     </div>

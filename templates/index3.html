@@ -8,32 +8,40 @@
     <div class="jumbotron">
         Welcome to the Biashara Hub app. We connect customers to businesses by allowing existing and potential customers to view and review companys' profiles. 
     </div>
-            {%if request.form['client']=='Customer'%}
-                    <form action='/sign up client' method="POST">
-                    <p><input type="username" name="username" required placeholder="Username"></p>
-                    <p><input type="password" name="password" required placeholder="Password"></p>
-                    <p><input type="password" name="password2" required placeholder="Confirm Password"></p>
-                    <p><input type="email" name="email" required placeholder="Email"></p>
-                    <p><input type="location" name="location" required placeholder="Location"></p>
-                    {%if request.form['password']!=request.form['password2']%}
-                      <p>Enter matching passwords!</p>
-                    {%endif%}
-                    <input type="submit" value="Sign Up">
-                    </form> 
-            {%elif request.form['client']=='Business'%}
-                    <form action='/sign up client' method="POST">
-                    <p><input type="username" name="username" required placeholder="Company name"></p>
-                    <p><input type="password" name="password" required placeholder="Password"></p>
-                    <p><input type="password" name="password2" required placeholder="Confirm Password"></p>
-                    <p><input type="email" name="email" required placeholder="Email"></p>
-                    <p><input type="text" name="product" required placeholder="Product"></p>
-                    <p><input type="location" name="location" required placeholder="Location"></p>
-                    {%if request.form['password']!=request.form['password2']%}
-                      <p>Enter matching passwords!</p>
-                    {%endif%}
-                    <input type="submit" value="Sign Up">
-                    </form> 
-          {%endif%}
+            <form action='/sign_up_client' method="POST">
+              {{ form.hidden_tag() }}
+                <p>
+                  {{ form.username.label }}<br>
+                  {{ form.username(size=32) }}<br>
+                  {% for error in form.username.errors %}
+                  <span style="color: red;">[{{ error }}]</span>
+                  {% endfor %}
+              </p>
+              <p>
+                  {{ form.email.label }}<br>
+                  {{ form.email(size=64) }}<br>
+                  {% for error in form.email.errors %}
+                  <span style="color: red;">[{{ error }}]</span>
+                  {% endfor %}
+              </p>
+              <p>
+                  {{ form.password.label }}<br>
+                  {{ form.password(size=32) }}<br>
+                  {% for error in form.password.errors %}
+                  <span style="color: red;">[{{ error }}]</span>
+                  {% endfor %}
+              </p>
+              <p>
+                  {{ form.password2.label }}<br>
+                  {{ form.password2(size=32) }}<br>
+                  {% for error in form.password2.errors %}
+                  <span style="color: red;">[{{ error }}]</span>
+                  {% endfor %}
+              </p>
+              <p>{{ form.submit() }}</p>
+
+           </form> 
+           
             </div>
         </div>
 {% endblock %}

@@ -3,14 +3,24 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-  <h1 class="text-center">Company profiles are here!!!</h1>
+    <h1>{{ current_user.username }}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}</h1>
+    {% for post in posts %}
+    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+    {% endfor %}
   <div class="row">
     <div class="col-sm-8 offset-sm-2">
-        <h1 class="p-2 text-dark">Create or edit your profile here!!!</h1>
-        <form method="POST" action="/">
-          <input type="text" name="title">
-          <input type="submit" value="Add">
-      </form>
+        <div class="jumbotron">
+            Welcome to the Biashara Hub app. We connect customers to businesses by allowing existing and potential customers to view and review companys' profiles.
+          </div>  
     </div>
   </div>
 {% endblock %}
