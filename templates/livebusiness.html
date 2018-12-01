@@ -11,17 +11,19 @@
         <li>{{ message }}</li>
         {% endfor %}
     </ul>
-    {% endif %}
-    {% endwith %}</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
+    {%endif%}
+    {%endwith%}
   <div class="row">
     <div class="col-sm-8 offset-sm-2">
         <div class="jumbotron">
-            Welcome to the Biashara Hub {{ current_user.username }}. You are welcome to view and review companys' profiles as well as create your own profile.
-          </div>  
+           <p>Your current businesses</p>
+          </div> 
+          {%for business in running_businesses%}
+            <p>{{business}}<br>
+                {{business.about_business}}<br>
+                <a href="{{ url_for('update_business') }}">Edit</a><a href="{{ url_for('delete_business') }}">Delete</a>
+            </p>
+        {%endfor%}
     </div>
   </div>
 {% endblock %}
-

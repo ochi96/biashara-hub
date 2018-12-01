@@ -10,6 +10,13 @@
         Welcome to the Biashara Hub app. We connect customers to businesses by allowing existing and potential customers to view and review companys' profiles. 
         
       </div>
+      <h1>User: {{ user.username }}</h1>
+    <hr>
+   <div> {% for post in posts %}
+    <p>
+    {{ post.author.username }} says: <b>{{ post.body }}</b>
+    </p>
+    {% endfor %}</div>
     </div>
 </div>
 {% endblock %}
