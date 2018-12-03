@@ -19,9 +19,8 @@
            <p>Your current businesses</p>
           </div> 
           {%for business in running_businesses%}
-            <p>{{business}}<br>
-                {{business.about_business}}<br>
-                <a href="{{ url_for('update_business') }}">Edit</a><a href="{{ url_for('delete_business') }}">Delete</a>
+                <a href="{{ url_for('update_business',businessname=business.businessname) }}">{{business.businessname}}</a>
+                <p>{{business.about_business}}<br></p>
             </p>
         {%endfor%}
     </div>

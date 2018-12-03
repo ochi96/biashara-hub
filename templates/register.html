@@ -6,7 +6,7 @@
   <h1 class="text-center">BIASHARA HUB</h1>
   <div class="row">
     <div class="col-sm-6 offset-sm-3">
-            <h1>Edit Business Profile</h1>
+            <h1>Enter details to register your business</h1>
             <form action="" method="post">
                 {{ form.hidden_tag() }}
                 <p>
@@ -23,19 +23,22 @@
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
+
                 <p>
-                        {{ form.location.label }}<br>
-                        {{ form.location(size=32) }}<br>
-                        {% for error in form.location.errors %}
-                        <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
+                    {{ form.location.label }}<br>
+                    {{ form.location(size=2) }}<br>
+                    {% for error in form.about_business.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+
+
                     <p>
-                            {{ form.category.label }}<br>
-                            {{ form.category(size=32) }}<br>
-                            {% for error in form.category.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                            {% endfor %}
+                    {{ form.category.label }}<br>
+                    {{form.category(size=2)}}<br>
+                    {% for error in form.category.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
                         </p>
                 <p>{{ form.submit() }}</p>
             </form>

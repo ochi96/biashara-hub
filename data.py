@@ -10,10 +10,11 @@ from flask_login import LoginManager,UserMixin, current_user, login_user, logout
 
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField,TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField,TextAreaField, SelectField
 from wtforms.validators import DataRequired, ValidationError, Email,EqualTo ,Length
 
 from config import Config
+
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
 database_file = "sqlite:///{}".format(os.path.join(project_dir, "userdatabase.db"))
@@ -61,7 +62,7 @@ class User(UserMixin, db.Model): ###exhibits self referential relationship###
 
 
 class Business(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
+        id = db.Column(db.Integer, primary_key=True,index=True)
         businessname=db.Column(db.String(64), index=True, unique=True)
         about_business=db.Column(db.String(200))
         location=db.Column(db.String(200))
@@ -102,10 +103,12 @@ class EditProfileForm(FlaskForm):
         submit = SubmitField('Submit')
 
 class RegisterBusinessForm(FlaskForm):
+        locations = [('Nairobi','Nairobi'),('Mombasa','Mombasa'),('Kisumu','Kisumu'),('Nakuru','Nakuru')]
+        categories = [('Agriculture','Agriculture'),('Military','Military'),('Trade','Trade'),('Entertainment','Entertainment'),('Technology','Technology')]
         businessname = StringField('Business name', validators=[DataRequired()])
         about_business = TextAreaField('About the business', validators=[Length(min=0, max=200)])
-        location=TextAreaField('Location', validators=[Length(min=0, max=200)])
-        category=TextAreaField('Category', validators=[Length(min=0, max=200)])
+        location=SelectField('Location', choices=locations)
+        category=SelectField('Category', choices=categories)
         submit = SubmitField('Submit')
 
 
@@ -197,7 +200,7 @@ def register_business():
         form=RegisterBusinessForm()
         if form.validate_on_submit():
                 business=Business(businessname = form.businessname.data,about_business = form.about_business.data,
-                location=form.location.data,category=form.category.data,user_id=current_user.id)
+                location=request.form['location'],category=request.form['category'],user_id=current_user.id)
                 db.session.add(business)
                 db.session.commit()
                 return render_template('live.html',business=business)
@@ -208,28 +211,28 @@ def current_business():
         running_businesses=Business.query.filter_by(user_id=current_user.id).all()
         return render_template('livebusiness.html',running_businesses=running_businesses)
 
-@app.route('/update_biz',methods=['GET','POST'])
-@login_required
-def update_business():
+@app.route('/update_business<businessname>',methods=['GET','POST'])
+def update_business(businessname):
         form=RegisterBusinessForm()
-        running_businesses=Business.query.filter_by(user_id=current_user.id).all()
-        for business in running_businesses:
-                if form.validate_on_submit():
-                        form.businessname.data = business.businessname
-                        form.about_business.data = business.about_business
-                        form.location.data= business.location
-                        form.category.data=business.category
-                        user_id=current_user.id
-                        db.session.commit()
-                elif request.method == 'GET':
-                        form.businessname.data = business.businessname
-                        form.about_business.data = business.about_business
-                        form.location.data= business.location
-                        form.category.data=business.category
-                        user_id=current_user.id
-                        ##return render_template('live.html',business=business)
-                return render_template('register.html', title='Edit Profile',form=form)
+        business=Business.query.filter_by(businessname=businessname).first()
+        if form.validate_on_submit():
+                business.businessname = form.businessname.data
+                business.about_business = form.about_business.data
+                business.location=request.form['location']
+                business.category=request.form['category']
+                db.session.commit()
+        elif request.method == 'GET':
+                form.businessname.data = business.businessname
+                form.about_business.data = business.about_business
+                '''request.form['location']=business.location
+                request.form['category']=business.category'''
 
+        return render_template('register.html', title='Edit Profile',form=form)
+        
+
+
+
+#return render_template('register.html', title='Edit Profile',form=form)
 @app.route('/delete_biz',methods=['GET','POST'])
 @login_required
 def delete_business():
@@ -238,7 +241,5 @@ def delete_business():
                 db.session.delete(business)
                 db.session.commit()
                 return render_template('live2.html',business=business)
-
-        
 
 
