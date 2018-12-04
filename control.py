@@ -6,7 +6,7 @@ from datetime import datetime
 from flask_login import LoginManager,UserMixin, current_user, login_user, logout_user, login_required
 
 from config import Config
-from forms import RegistrationForm,LoginForm,EditProfileForm,RegisterBusinessForm
+from forms import RegistrationForm,LoginForm,EditProfileForm,RegisterBusinessForm,CategorySearch
 from models import app,User,Business,db
 login = LoginManager(app)
 login.login_view = 'login'
@@ -139,6 +139,13 @@ def delete_business():
                 db.session.delete(business)
                 db.session.commit()
                 return render_template('live2.html',business=business)
+
+@app.route('/all_businessess',methods=['GET','POST'])
+@login_required
+def all_businesses():
+        all_businesses=Business.query.all()
+        return render_template('all_businesses.html',all_businesses=all_businesses)
+
 
 
 

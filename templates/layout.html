@@ -16,9 +16,9 @@
         <a href="{{ url_for('index') }}">Home</a>
         {% else %}
         <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+        <a href="{{ url_for('current_business') }}">MYBusinesses</a>
+        <a href="{{ url_for('all_businesses') }}">Registered Businesses</a>
         <a href="{{ url_for('logout') }}">Logout</a>
-        <a href="{{ url_for('register_business') }}">Register Business</a>
-        <a href="{{ url_for('current_business') }}">Live Businesses</a>
         {% endif %}
       </nav>
     </div>
