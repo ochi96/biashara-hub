@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <h1>{{ current_user.username }}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}</h1>
+    {% for post in posts %}
+    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+    {% endfor %}
+  <div class="row">
+    <div class="col-sm-8 offset-sm-2">
+        <div class="jumbotron">
+            Congratulations {{ current_user.username }}. You have successfully registered {{business.businessname}}.
+          </div>  
+    </div>
+  </div>
+{% endblock %}
