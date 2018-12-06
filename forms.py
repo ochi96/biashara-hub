@@ -38,11 +38,23 @@ class RegisterBusinessForm(FlaskForm):
     categories = [('Agriculture','Agriculture'),('Military','Military'),('Trade','Trade'),('Entertainment','Entertainment'),('Technology','Technology')]
     businessname = StringField('Business name', validators=[DataRequired()])
     about_business = TextAreaField('About the business', validators=[Length(min=0, max=200)])
-    location=SelectField('Location', choices=locations)
-    category=SelectField('Category', choices=categories)
+    location = SelectField('Location', choices=locations)
+    category = SelectField('Category', choices=categories)
     submit = SubmitField('Submit')
     
-class CategorySearch(FlaskForm):
+class CriteriaForm(FlaskForm):
+    #picks = [('location','location')('category','category')]
+    locations = [('Nairobi','Nairobi'),('Mombasa','Mombasa'),('Kisumu','Kisumu'),('Nakuru','Nakuru')]
     categories = [('Agriculture','Agriculture'),('Military','Military'),('Trade','Trade'),('Entertainment','Entertainment'),('Technology','Technology')]
-    select=SelectField('Search for category',choices=categories)
-    search=StringField('')
+    location = SelectField('Location', choices=locations)
+    category = SelectField('Category', choices=categories)
+    submit = SubmitField('Submit')
+
+class ReviewsForm(FlaskForm):
+    feedback = TextAreaField('Write your Review', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Submit')
+
+
+
+
+

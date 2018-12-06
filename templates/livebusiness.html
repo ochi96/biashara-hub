@@ -18,13 +18,18 @@
         <div class="jumbotron">
            <p>Your current businesses</p>
           </div> 
-    <div><p>do you want to register a new business?</p>
-        <a href="{{ url_for('register_business') }}">Register Business</a></div>
-          {%for business in running_businesses%}
-                <a href="{{ url_for('update_business',businessname=business.businessname) }}">{{business.businessname}}</a>
-                <p>{{business.about_business}}<br></p>
-            </p>
+      <p>
+        <p style="font-size:20px">Do you want to register a new business?<br>
+        <a href="{{ url_for('register_business') }}">Register Business</a></p>
+          
+        <p style="font-size:30px">YOUR BUSINESSES </p>
+        
+         {%for business in running_businesses%}
+         <p style="font-size:25px">      <a href="{{ url_for('update_business',businessname=business.businessname) }}">{{business.businessname}}</a><br>
+                <p style="font-size:20px">{{business.about_business}}<br></p>
         {%endfor%}
+        
+    </p>
     </div>
   </div>
 {% endblock %}

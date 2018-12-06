@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+  <h1 class="text-center">BIASHARA HUB</h1>
+  <div class="row">
+    <div class="col-sm-8 offset-sm-2">
+            <h1>Details for {{business.businessname}}</h1>
+            <p>About business : {{business.about_business}}</p>
+            <p>Location : {{business.location}}</p>
+            <p>Category : {{business.category}}</p>
+            <p><a href="{{  url_for('review',id=business.id) }}">Review</a></p>
+            
+            
+      
+    </div>
+</div>
+{% endblock %}

@@ -58,5 +58,17 @@ class Business(db.Model):
         def __repr__(self):
                 return 'Business: {}'.format(self.businessname)
 
+class Reviews(db.Model):
+        id = db.Column(db.Integer, primary_key=True,index=True)
+        feedback = db.Column(db.String(200))
+        business_id = db.Column(db.Integer, db.ForeignKey('business.id'))
+        user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+        timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+        
+        def __repr__(self):
+                return 'Review: {}'.format(self.feedback)
+
+
+
 
 

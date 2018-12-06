@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+  <h1 class="text-center">BIASHARA HUB</h1>
+  <div class="row">
+    <div class="col-sm-6 offset-sm-3">
+            <h1 style="font-size:30px">These are the companies you are looking for</h1>
+            <p style="font-size:25px">All Companies in {{form.location.data}}</p>
+                <p>{%for business in businesses%}
+                    {%if form.location.data==business.location%}
+                    <p style="font-size:20px"><a href="{{ url_for('business_profiles',businessname=business.businessname) }}">{{business.businessname}}</a><br>
+                    {%endif%}
+                {%endfor%}
+                </p>
+                <p style="font-size:25px">All Companies associated with {{form.category.data}}</p>
+                
+                <p>{%for business in businesses%}
+                    {%if form.category.data==business.category%}
+                    <p style="font-size:20px"><a href="{{ url_for('business_profiles',businessname=business.businessname) }}">{{business.businessname}}</a><br>
+                    {%endif%}
+                {%endfor%}
+                </p>
+
+                <p style="font-size:25px">Businesses in {{form.location.data}} associated with {{form.category.data}}</p>
+                
+                    {%for business in businesses%}
+                        {%if form.category.data==business.category and form.location.data==business.location%}
+                        <p style="font-size:20px"><a href="{{ url_for('business_profiles',businessname=business.businessname) }}">{{business.businessname}}</a><br>
+                            {%else%}
+                        {%endif%}
+                    {%endfor%} 
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
