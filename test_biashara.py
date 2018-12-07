@@ -2,7 +2,7 @@ import os
 
 import tempfile
 import pytest
-from biashara import app
+from biashara.control import app
 
 
 @pytest.fixture
