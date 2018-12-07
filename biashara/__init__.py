@@ -5,7 +5,7 @@ app = Flask(__name__)
 #import biashara.control,biashara.forms,biashara.models,biashara.templates
 from biashara import control,forms,models,templates
 
-if not app.debug and not app.testing:
+'''if not app.debug and not app.testing:
         # ...
         if app.config['LOG_TO_STDOUT']:
             stream_handler = logging.StreamHandler()
@@ -25,7 +25,7 @@ if not app.debug and not app.testing:
         app.logger.setLevel(logging.INFO)
         app.logger.info('Biashara startup')
 
-        return app
+        return app'''
 
 
 
