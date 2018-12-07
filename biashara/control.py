@@ -1,13 +1,12 @@
 
-
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for,flash
 from datetime import datetime
-
 from flask_login import LoginManager,UserMixin, current_user, login_user, logout_user, login_required
-
 from config import Config
-from forms import RegistrationForm,LoginForm,EditProfileForm,RegisterBusinessForm,CriteriaForm,ReviewsForm
-from models import app,User,Business,db,Reviews
+from biashara.forms import RegistrationForm,LoginForm,EditProfileForm,RegisterBusinessForm,CriteriaForm,ReviewsForm
+from biashara.models import app,User,Business,db,Reviews
+
+from biashara import app
 login = LoginManager(app)
 login.login_view = 'login'
 
