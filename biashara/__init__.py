@@ -25,7 +25,7 @@ if not app.debug and not app.testing:
         app.logger.setLevel(logging.INFO)
         app.logger.info('Biashara startup')
 
-    return app
+        return app
 
 
 
