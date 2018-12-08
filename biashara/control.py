@@ -43,7 +43,7 @@ def login():           ##form validators,flash messages,, improve error validati
 
 
 @app.route('/sign up',methods=['GET','POST'])
-def signupcustorbiz():
+def signupcustorbiz():### changed my mind  all users sign up the same way
         form=RegistrationForm()
         return render_template('index3.html',form=form)
 
@@ -204,7 +204,7 @@ def review(id):
                 review = Reviews(feedback=form.feedback.data,user_id=current_user.id,business_id=business.id)
                 db.session.add(review)
                 db.session.commit()
-                return render_template('update_profile.html')
+                return render_template('reviewed.html')
         
         return render_template('reviews.html',form=form)
 
