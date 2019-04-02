@@ -19,18 +19,18 @@ def load_user(id):
 @app.route("/")
 @login_required         ###redirects and url for() improvements
 def index():
-        return render_template("dashboard1.html")
+        return render_template("indexalt.html")
 
 
 @app.route("/dashboard")  ###redirects and url for() improvements
 def dashboard():
-        return render_template("dashboard1.html")
+        return render_template("indexalt.html")
 
 
 @app.route('/login', methods=['GET','POST'])
 def login():           ##form validators,flash messages,, improve error validation on login forms
         if current_user.is_authenticated:
-                return render_template("dashboard1.html")
+                return render_template("dashboard2.html")
         form = LoginForm()
         if form.validate_on_submit():
                 user = User.query.filter_by(username=form.username.data).first()
@@ -38,7 +38,21 @@ def login():           ##form validators,flash messages,, improve error validati
                         flash('Invalid username or password')
                         return render_template("index.html",form=form)
                 login_user(user, remember=form.remember_me.data)
-                return render_template("dashboard1.html")
+                return render_template("dashboard2.html")
+        return render_template('index.html', title='Sign In', form=form)
+
+@app.route('/login2', methods=['GET','POST'])
+def signin():           ##form validators,flash messages,, improve error validation on login forms
+        if current_user.is_authenticated:
+                return render_template("dashboard2.html")
+        form = LoginForm()
+        if form.validate_on_submit():
+                user = User.query.filter_by(username=form.username.data).first()
+                if user is None or not user.check_password(form.password.data):
+                        flash('Invalid username or password')
+                        return render_template("indexalt.html",form=form)
+                login_user(user, remember=form.remember_me.data)
+                return render_template("dashboard2.html")
         return render_template('index.html', title='Sign In', form=form)
 
 
@@ -53,12 +67,11 @@ def register():
                 return redirect(url_for('dashboard'))
         form = RegistrationForm()
         if form.validate_on_submit():
-                user = User(username=form.username.data, email=form.email.data)
+                age=2019-int(form.age.data)
+                user = User(first_name = form.first_name.data,middle_name = form.middle_name.data,username = form.username.data,age=age, email = form.email.data, location = form.location.data, gender = form.gender.data, preference = form.preference.data)
                 user.set_password(form.password.data)
                 db.session.add(user)
                 db.session.commit()
-                
-                flash('Congratulations, you are now a registered user!')
                 return render_template('dashboard1.html')
         return render_template('index3.html', form=form)
 
@@ -66,7 +79,7 @@ def register():
 @app.route('/logout')
 def logout():
         logout_user()
-        return render_template("dashboard1.html")
+        return render_template("logout.html")
 
 
 @app.route('/user/<username>')
@@ -88,6 +101,7 @@ def before_request():
 def edit_profile():
         form = EditProfileForm()
         if form.validate_on_submit():
+                
                 current_user.username = form.username.data
                 current_user.about_me = form.about_me.data
                 db.session.commit()
@@ -214,12 +228,8 @@ def review(id):
 def review_business():
         return render_template('update_profile.html')
 
-'''
-@app.route('/view_reviews',methods=['GET','POST'])
-@login_required
-def view_reviews():
-        pass
-'''    
+
+#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
         
 
 

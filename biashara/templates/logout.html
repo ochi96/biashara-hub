@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    
+  <div class="row">
+    <div class="col-sm-8 offset-sm-2">
+        <div class="jumbotron">
+            <h3> <p class="text-info">Such a pity to see you leave {{ current_user.username }} 😢😢! </p> </h3>
+            <p class="lead">
+    
+              You are always welcome back to our community at any time.
+            </p>
+
+            <p class="lead">
+              In case this was a mistake, you can log in back to your account
+            </p>
+            <form action="/login" method="POST">
+                <input type="submit" class= 'btn btn-warning btn-45' value="Sign in ">
+                </form>
+          </div>  
+    </div>
+  </div>
+{% endblock %}

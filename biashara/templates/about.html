@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-sm-6 offset-sm-3">
             <h1>Edit Profile</h1>
-            <form action="" method="post">
+            <form action="/edit_profile" method="post">
                 {{ form.hidden_tag() }}
                 <p>
                     {{ form.username.label }}<br>
@@ -24,7 +24,8 @@
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
-                <p>{{ form.submit() }}</p>
+                    <input type="submit" class= 'btn btn-warning btn-45' value="Submit ">
+                    </p>
             </form>
       
     </div>
