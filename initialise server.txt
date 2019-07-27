@@ -1,0 +1,4 @@
+venv\Scripts\activate
+set FLASK_APP=run.py
+set FLASK_DEBUG=ON
+set FLASK_ENV=development

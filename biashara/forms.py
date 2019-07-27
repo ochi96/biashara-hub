@@ -1,10 +1,16 @@
 
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField,TextAreaField, SelectField
-from wtforms.validators import ValidationError, Email, EqualTo , Length, DataRequired
+from flask_login import LoginManager,UserMixin, current_user, login_user, logout_user, login_required
+from flask_wtf.file import FileField,FileAllowed,FileRequired
+from flask_uploads import UploadSet, IMAGES, configure_uploads
+from wtforms import StringField, PasswordField, BooleanField, SubmitField,TextAreaField, SelectField, FileField
+from wtforms.validators import ValidationError, EqualTo, Length, DataRequired, Email
 from biashara.models import User,Business,Reviews
 from biashara import app
+
+images = UploadSet('images',IMAGES)
+configure_uploads(app,images)
 
 locations = [('Nairobi','Nairobi'),('Mombasa','Mombasa'),('Kisumu','Kisumu'),('Nakuru','Nakuru'),('Nyeri','Nyeri')]
 categories = [('Agriculture','Agriculture'),('Military','Military'),('Trade','Trade'),('Entertainment','Entertainment'),('Technology','Technology'),('Dating','Dating')]
@@ -31,6 +37,7 @@ class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     age = SelectField('Year of Birth', validators=[DataRequired()],choices=years)
     email = StringField('Email', validators=[DataRequired(), Email()])
+    profilepicture = FileField('Profile Picture',validators=[FileRequired(),FileAllowed(images,'Images Only')])
     location = StringField('Town/City:', validators=[DataRequired()])
     gender = SelectField('Sex/Gender',validators=[DataRequired()],choices=genders)
     preference = SelectField('Interested in:',validators=[DataRequired()],choices=preferences)
@@ -59,6 +66,17 @@ class EditProfileForm(FlaskForm):
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
 
+    def validate_username(self, username):
+            user = User.query.filter_by(username=username.data).first()
+            if user is not None:
+                if user.username is not current_user.username:
+                    raise ValidationError('Please use a different username. Username already exists')
+    
+    def validate_email(self, email):
+            user = User.query.filter_by(email=email.data).first()
+            if user is not None:
+                    raise ValidationError('Please use a different email address. Email address already exists')
+
 class RegisterBusinessForm(FlaskForm):   
     businessname = StringField('Business name', validators=[DataRequired()])
     about_business = TextAreaField('About the business', validators=[Length(min=0, max=200)])
@@ -74,6 +92,11 @@ class CriteriaForm(FlaskForm):
 class ReviewsForm(FlaskForm):
     feedback = TextAreaField('Write your Review', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
+
+class MatchesForm(FlaskForm):
+    submit = SubmitField('Submit')
+
+
 
 
 

@@ -34,6 +34,8 @@ class User(UserMixin, db.Model): ###exhibits self referential relationship###
         location = db.Column(db.String(100), index=True)
         gender = db.Column(db.String(30), index=True)
         preference = db.Column(db.String(30), index=True)
+        profilepicture = db.Column(db.String,default=None, nullable=True)
+        image_url = db.Column(db.String,default=None, nullable=True)
         password_hash = db.Column(db.String(128))
         about_me = db.Column(db.String(140))
         last_seen = db.Column(db.DateTime, default=datetime.utcnow)
@@ -74,6 +76,15 @@ class Reviews(db.Model):
         
         def __repr__(self):
                 return 'Review: {}'.format(self.feedback)
+
+class Matches(db.Model):
+        id = db.Column(db.Integer, primary_key=True,index=True)
+        user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+        feedback = db.Column(db.String(200))
+        timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+        
+        def __repr__(self):
+                return 'Match: {}'.format(self.feedback)
 
 
 

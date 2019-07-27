@@ -1,7 +1,9 @@
+scrapbook.py
+project_dir
 hello.py
 requirements.txt
 /venv
 UML diagram for flask.vsdx
 .pytest_cache
-test_biashara
+test_biashara.py
 __pycache__

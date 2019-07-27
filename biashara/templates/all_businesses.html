@@ -4,25 +4,25 @@
 
 {% block body %}
     <h1>{{ current_user.username }}
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {%endif%}
-    {%endwith%}
+    
   <div class="row">
     <div class="col-sm-8 offset-sm-2">
         <div class="jumbotron">
-           <p style="font-size:30px">All registered businesses</p>
-          </div> 
+           <p style="font-size:30px">All Available Matches</p>
+          
           {%for business in all_businesses%}
           <p style="font-size:25px">       <a href="{{ url_for('business_profiles',businessname=business.businessname) }}">{{business.businessname}}</a><br>
-            <p style="font-size:20px">{{business.about_business}}<br></p>
+            <p style="font-size:20px">{{business.first_name}} {{business.middle_name}}<br>
+              {{business.age}}<br>{{business.about_me}}</p>
             </p>
+            <form action="/new_match" method="POST">
+            <input type="submit" class= 'btn btn-warning ' value="Nope"></form>
+            
+            <form action="/new_match" method="POST">
+            <input type="submit" class= 'btn btn-warning ' value="Yes"></form>
+            
         {%endfor%}
     </div>
   </div>
+</div> 
 {% endblock %}

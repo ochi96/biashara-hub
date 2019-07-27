@@ -8,3 +8,9 @@ class Config(object):
     SECRET_KEY = "thisisjustaboutthemostfunillgetataandela"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
+
+    UPLOADS_DEFAULT_DEST = 'project_dir/static/img'
+    UPLOADS_DEFAULT_URL = 'http://localhost:5000/project_dir/static/img'
+
+    UPLOADED_DEFAULT_DEST = 'project_dir/static/img'
+    UPLOADED_DEFAULT_URL = 'http://localhost:5000/project_dir/static/img'
