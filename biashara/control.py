@@ -5,16 +5,21 @@ from werkzeug import secure_filename
 from datetime import datetime
 from flask_login import LoginManager,UserMixin, current_user, login_user, logout_user, login_required
 from flask_uploads import UploadSet, IMAGES, configure_uploads
+import subprocess
+
+
 
 from config import Config
-from biashara.forms import RegistrationForm,LoginForm,EditProfileForm,RegisterBusinessForm,CriteriaForm,ReviewsForm,MatchesForm
-from biashara.models import app,User,Business,db,Reviews,Matches
+from biashara.forms import RegistrationForm,LoginForm,EditProfileForm,CriteriaForm,ReviewsForm,MatchesForm
+from biashara.models import app,User,db,Matches
+
 
 from biashara import app
 login = LoginManager(app)
 login.login_view = 'login'
 images = UploadSet('images',IMAGES)
 configure_uploads(app,images)
+
 
 
 @login.user_loader
@@ -26,7 +31,7 @@ def load_user(id):
 @login_required         ###redirects and url for() improvements
 def index():
         form = LoginForm()
-        return render_template("loginpage.html",form=form)
+        return render_template("twitterexample.html",form=form)              #should be loginpage.html
 
 
 @app.route("/log in",methods=['GET','POST'])  ###redirects and url for() improvements
@@ -122,115 +127,25 @@ def edit_profile():
 
 
 
+#@app.route('/your_live_business')
+#def current_business():
+        #running_businesses=Business.query.filter_by(user_id=current_user.id).all()
+        #Sreturn render_template('livebusiness.html',running_businesses=running_businesses)
 
-@app.route('/register_biz',methods=['GET','POST'])
-@login_required
-def register_business():
-        form=RegisterBusinessForm()
-        if form.validate_on_submit():
-                business=Business(businessname = form.businessname.data,about_business = form.about_business.data,
-                location=form.location.data,category=form.category.data,user_id=current_user.id)
-                db.session.add(business)
-                db.session.commit()
-                return render_template('live.html',business=business)
-        return render_template('register.html', title='Edit Profile',form=form)
-
-
-@app.route('/your_live_business')
-def current_business():
-        running_businesses=Business.query.filter_by(user_id=current_user.id).all()
-        return render_template('livebusiness.html',running_businesses=running_businesses)
-
-
-@app.route('/update_business<businessname>',methods=['GET','POST'])
-def update_business(businessname):
-        form=RegisterBusinessForm()
-        business=Business.query.filter_by(businessname=businessname).first()
-        if form.validate_on_submit():
-                business.businessname = form.businessname.data
-                business.about_business = form.about_business.data
-                business.location=form.location.data
-                business.category=form.category.data
-                db.session.commit()
-                return render_template('update_profile.html',form=form)
-        elif request.method == 'GET':
-                form.businessname.data = business.businessname
-                form.about_business.data = business.about_business
-                form.location.data = business.location
-                form.category.data = business.category
-        return render_template('register2.html', title='Edit Profile',form=form,business=business)
-
-@app.route('/updated_business',methods=['GET','POST'])
-def updated_business():
-        form=RegisterBusinessForm()
-        if form.validate_on_submit():
-                db.session.commit()
-                return render_template('update_profile.html',form=form)
-
-        
-
-@app.route('/delete_business<businessname>',methods=['GET','POST'])
-@login_required
-def delete_business(businessname):
-        business=Business.query.filter_by(businessname=businessname).all()
-        for business in business:
-                db.session.delete(business)
-                db.session.commit()
-                return render_template('live2.html',business=business)
-
-
-@app.route('/all_businessess',methods=['GET','POST'])
+@app.route('/potential_matches',methods=['GET','POST'])
 @login_required
 def all_businesses():
         all_businesses=User.query.all()
-        return render_template('all_businesses.html',all_businesses=all_businesses)
-
-##searching
-@app.route('/business_profiles<businessname>')
-@login_required
-def business_profiles(businessname):
-        business=Business.query.filter_by(businessname=businessname).first_or_404()
-        return render_template('business_profile.html',business=business)
+        return render_template('potential_matches.html',all_businesses=all_businesses)
 
 
 @app.route('/criteria',methods=['GET','POST'])
 @login_required
 def Criteria():
         form = CriteriaForm()
-        businesses=Business.query.all()
-        return render_template('search.html',form=form,businesses=businesses)
+        matches=User.query.all()
+        return render_template('search.html',form=form,matches=matches)
 
-@app.route('/search_results',methods=['GET','POST'])
-@login_required
-def search_results():
-        form = CriteriaForm()
-        businesses=Business.query.all()
-        if form.validate_on_submit:
-                return render_template('search_results.html',form=form,businesses=businesses)
-
-                
-####reviews
-@app.route('/review<id>',methods=['GET','POST'])
-@login_required
-def review(id):
-        form=ReviewsForm()
-        business= Business.query.filter_by(id=id).first_or_404()
-        if request.method=='GET':
-                return render_template('reviews.html',form=form)
-
-        elif form.validate_on_submit:
-                review = Reviews(feedback=form.feedback.data,user_id=current_user.id,business_id=business.id)
-                db.session.add(review)
-                db.session.commit()
-                return render_template('reviewed.html')
-        
-        return render_template('reviews.html',form=form)
-
-
-@app.route('/review_business',methods=['GET','POST'])
-@login_required
-def review_business():
-        return render_template('update_profile.html')
 
 @app.route('/new_match',methods=['GET','POST'])
 def sending_likes():
@@ -244,7 +159,7 @@ def sending_likes():
         return render_template('update_profile.html')
 
 
-
+#python3 __init__.py
 #<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
         
 

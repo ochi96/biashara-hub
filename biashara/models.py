@@ -2,7 +2,6 @@ from biashara import app
 
 from flask import Flask
 
-
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -39,7 +38,6 @@ class User(UserMixin, db.Model): ###exhibits self referential relationship###
         password_hash = db.Column(db.String(128))
         about_me = db.Column(db.String(140))
         last_seen = db.Column(db.DateTime, default=datetime.utcnow)
-        businesses = db.relationship('Business', backref='User', lazy='dynamic')
 
         def __repr__(self):
                 return '<User {}>'.format(self.username)
@@ -54,28 +52,6 @@ class User(UserMixin, db.Model): ###exhibits self referential relationship###
                 digest = md5(self.email.lower().encode('utf-8')).hexdigest()
                 return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
 
-
-class Business(db.Model):
-        id = db.Column(db.Integer, primary_key=True,index=True)
-        businessname=db.Column(db.String(64), index=True, unique=True)
-        about_business=db.Column(db.String(200))
-        location=db.Column(db.String(200))
-        category=db.Column(db.String(200))
-        timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-        user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-        def __repr__(self):
-                return 'Business: {}'.format(self.businessname)
-
-class Reviews(db.Model):
-        id = db.Column(db.Integer, primary_key=True,index=True)
-        feedback = db.Column(db.String(200))
-        business_id = db.Column(db.Integer, db.ForeignKey('business.id'))
-        user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-        timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-        
-        def __repr__(self):
-                return 'Review: {}'.format(self.feedback)
 
 class Matches(db.Model):
         id = db.Column(db.Integer, primary_key=True,index=True)

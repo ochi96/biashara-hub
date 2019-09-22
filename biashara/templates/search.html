@@ -3,10 +3,10 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-  <h1 class="text-center">BIASHARA HUB</h1>
+  <h1 class="text-center">Look for potential mates</h1>
   <div class="row">
     <div class="col-sm-6 offset-sm-3">
-            <h1>Enter your criteria</h1>
+            <h2>Enter your criteria</h2>
             <form action="/search_results" method="post">
                 {{ form.hidden_tag() }}
                 <p>
@@ -17,15 +17,15 @@
                     {% endfor %}
                 </p>
                 <p>
-                    {{ form.category.label }}
-                    {{ form.category(size=1) }}<br>
-                    {% for error in form.category.errors %}
+                    {{ form.gender.label }}
+                    {{ form.gender(size=1) }}<br>
+                    {% for error in form.gender.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
-
-                <p>{{ form.submit() }}</p>
-
+                <p>
+                <input type="submit" class= 'btn btn-warning btn-32' value="Submit" >
+            </p>
             </form>      
     </div>
 </div>

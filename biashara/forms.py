@@ -6,7 +6,7 @@ from flask_wtf.file import FileField,FileAllowed,FileRequired
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from wtforms import StringField, PasswordField, BooleanField, SubmitField,TextAreaField, SelectField, FileField
 from wtforms.validators import ValidationError, EqualTo, Length, DataRequired, Email
-from biashara.models import User,Business,Reviews
+from biashara.models import User,Matches
 from biashara import app
 
 images = UploadSet('images',IMAGES)
@@ -77,16 +77,10 @@ class EditProfileForm(FlaskForm):
             if user is not None:
                     raise ValidationError('Please use a different email address. Email address already exists')
 
-class RegisterBusinessForm(FlaskForm):   
-    businessname = StringField('Business name', validators=[DataRequired()])
-    about_business = TextAreaField('About the business', validators=[Length(min=0, max=200)])
-    location = SelectField('Location', choices=locations)
-    category = SelectField('Category', choices=categories)
-    submit = SubmitField('Submit')
     
 class CriteriaForm(FlaskForm):
     location = SelectField('Location', choices=locations)
-    category = SelectField('Category', choices=categories)
+    gender = SelectField('Category', choices=categories)
     submit = SubmitField('Submit')
 
 class ReviewsForm(FlaskForm):
